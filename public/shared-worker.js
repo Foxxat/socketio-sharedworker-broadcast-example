@@ -1,22 +1,19 @@
 // This is the Shared Worker.
 
-const webSocket = new WebSocket("ws://localhost:3000");
+// This should match the version of the server, better serving the js from the server
+importScripts('https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js');
+
+const socket = io();
 const broadcastChannel = new BroadcastChannel("shared-worker-channel");
 
 const portMap = {};
 
-// webSocket.onopen = () =>
-//   broadcastChannel.postMessage({ type: "WSState", state: webSocket.readyState });
-// webSocket.onclose = () =>
-//   broadcastChannel.postMessage({ type: "WSState", state: webSocket.readyState });
-
-// WebSocket connection
-
-webSocket.onmessage = (event) => {
-  const message = event.data;
+socket.on('message', (message) => {
+  console.log(message);
+  //const message = event.data;
   console.log('Message received from WebSocket');
   broadcastChannel.postMessage(message);
-};
+});
 
 // Worker connection
 
@@ -33,7 +30,7 @@ self.addEventListener('connect', function (event) {
     portMap[event.data.client_id] = port;
     console.log("portMap : " + JSON.stringify(portMap));
 
-    webSocket.send(JSON.stringify(event.data));
+    socket.emit("message",JSON.stringify(event.data));
     port.postMessage(log_message);
   });
 
