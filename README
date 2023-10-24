@@ -1,9 +1,9 @@
 
-Basic example of Websockets, Broadcast Channels and a Shared Worker example with managing client UUID's.
+Basic example of socket.io, Broadcast Channels and a Shared Worker example.
 
-This is a stub to explore the concepts and not production ready.
+This is a stub to explore the concepts and not production code.
 
 Workers can be inspected via chrome://inspect/#workers or browser equivalent.
 
-See https://github.com/websockets/ws
+See https://socket.io
 
